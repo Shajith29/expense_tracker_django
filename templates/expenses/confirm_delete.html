@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+<div class="mt-24 flex justify-center">
+  <div class="w-full max-w-lg bg-white rounded shadow p-6">
+    <h2 class="text-red-600 text-center mb-4 font-semibold text-xl">
+      Delete Expense
+    </h2>
+
+    <p class="text-gray-500 text-center mb-4">Are sure you want to delete ?</p>
+    <div class="bg-grey-10 p-6 rounded shadow mb-4 text-center space-y-2">
+      <p><strong>Category: </strong>{{ expense.category }}</p>
+      <p><strong>Amount: </strong>{{ expense.amount }}</p>
+      <p><strong>Date: </strong>{{ expense.date }}</p>
+    </div>
+
+    <form method="post" class="flex justify-center items-center gap-4">
+      {% csrf_token %}
+      <a
+        href="{% url 'list_expenses' %}"
+        class="px-4 py-2 rounded text-gray-700 hover:bg-gray-100 border"
+        >Cancel</a
+      >
+
+      <button
+        type="submit"
+        class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+      >
+        Delete
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

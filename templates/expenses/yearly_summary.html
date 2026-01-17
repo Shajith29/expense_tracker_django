@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block content %}
+
+<h2 class="text-xl font-semibold mb-4">Year {{ selected_year }}</h2>
+<form method="get" class="mb-6">
+  <select name="year" class="px-3 py-2 rounded border">
+    {% for y in years %}
+    <option value="{{ y }}" {% if  y == selected_year %} selected {% endif %}>
+        {{ y }}
+    </option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 ml-4">View</button>
+</form>
+
+<div class="bg-white p-4 rounded shadow mb-4">
+    <h2 class="text-lg font-semibold ">
+        Total Expense: {{ yearly_total }}
+    </h2>
+</div>
+
+<div class="bg-white rounded shadow overflow-x-auto">
+    <table class="w-full">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3">Month</th>
+                <th class="p-3">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in monthly_summary %}
+                <tr class="border-b text-center" >
+                    <td class="p-3">
+                        {{ row.date__month }}
+                    </td>
+                    <td class="p-3">{{ row.total }} </td>
+                </tr>
+
+            {% empty %}
+                <tr>
+                    <td colspan="2" class="p-4 text-gray-500 text-center">No Data for this year</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

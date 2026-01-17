@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block content %}
+<h2 class="text-xl font-semibold mb-4">Montly Expense</h2>
+
+<form method="get" class="flex gap-4 mb-6">
+    <select name="month" class="border px-4 py-2 rounded">
+        {% for m in months %}
+            <option value="{{m}}"
+            {% if selected_month == m|stringformat:"s" %} selected {% endif %}
+            >
+            {{m}}
+            </option>
+        {% endfor %}
+    </select>
+
+     <select name="month" class="border px-4 py-2 rounded">
+        {% for y in years %}
+            <option value="{{y}}"
+            {% if selected_month == m|stringformat:"s" %} selected {% endif %}
+            >
+            {{y}}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="px-4 py-2 bg-gray-900 text-white rounded" >View</button>
+</form>
+
+<div class="bg-white p-4 rounded shadow mb-4">
+    <h3 class="text-large font-semibold">
+        Total Expense: {{total_expense}}
+    </h3>
+</div>
+
+<div class="bg-white rounded shadow overflow-x-auto text-center">
+    <table class="w-full">
+        <thead class="bg-gray-200">
+            <tr>
+                <td class="p-3 font-semibold">Category</td>
+                <td class="p-3 font-semibold">Total</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in category_summary %}   
+                <tr class="border-b">
+                    <td class="p-3">{{ row.category__name }}</td>
+                     <td class="p-3">{{ row.total }}</td>
+                </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="2" class="text-center text-gray-500 p-4">No Data for this Month</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

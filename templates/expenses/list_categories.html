@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">Add Category</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-medium mb-2">Category</label>
+        {{form.name}} {% if form.name.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="w-full flex items-center justify-center mt-4">
+        <button
+          type="submit"
+          class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800"
+        >
+          Add Category
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">
+      My Categories ({{ categories.count }})
+    </h2>
+    <ul class="divide-y">
+      {% for category in categories %}
+      <li class="py-3 flex items-center justify-between">
+        <div class="w-lg flex gap-4 items-center justify-between">
+          <span>{{ category.name }}</span>
+
+          <span class="text-sm text-gray-500"
+            >{{ category.expense_count }}</span
+          >
+        </div>
+
+        {% if category.expense_count > 0 %}
+        <span class="text-green-500 text-sm">In use</span>
+        {% else %}
+        <form action="{% url 'delete_category' category.id %}" method="post">
+          {% csrf_token %}
+          <button
+            class="text-red-600 hover:underline text-sm"
+            onclick="return confirm('Are you sure you want to delete')"
+          >
+            Delete
+          </button>
+        </form>
+        {% endif %}
+      </li>
+      {% empty %}
+      <li class="py-3 text-gray-500">No Category Added yet</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
